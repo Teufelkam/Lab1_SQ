@@ -13,23 +13,31 @@ public class Person extends PersonTest{
     }
 
     public int getAge() {
-        if (birthdate == null)
-            return 0;
+        if (birthdate == null){
+            throw new NullPointerException();
+        }
         else if (birthdate.compareTo(Calendar.getInstance().getTime()) == 1) {
             throw new IllegalArgumentException();
         }
+        else
         {
-            int yearToday = currentYear;
-
             Calendar calendar = new GregorianCalendar();
             calendar.setTime(birthdate);
 
-            int birthYear = calendar.get(Calendar.YEAR);
 
-            if (yearToday == birthYear)
-                return yearToday - birthYear;
+            int birthYear = calendar.get(Calendar.YEAR);
+            int birthMonth = calendar.get(Calendar.MONTH);
+            int birthDay = calendar.get(Calendar.DATE);
+
+            if (currentMonth > birthMonth ||
+                (currentMonth == birthMonth && currentDay >= birthDay))
+            {
+                return currentYear - birthYear;
+            }
             else
-                return yearToday - birthYear - 1;
+            {
+                return currentYear - birthYear - 1;
+            }
         }
     }
 
